@@ -1,0 +1,32 @@
+﻿<settings-container xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+                    xsi:noNamespaceSchemaLocation='https://monkeymanboy.github.io/BSML-Docs/BSMLSchema.xsd'>
+    <toggle-setting value="DisableNoFailSubmission" text="Disable submission when failing with No Fail"
+                    hover-hint="Prevents score submission if you have the No Fail game modifier enabled, and you fail the map"
+                    apply-on-change="true"/>
+
+    <horizontal><text text="-----" color="#00000000" font-size="2"/></horizontal>
+
+    <toggle-setting value="DisableNonFullCombos" text="Disable submission if combo is not a full combo"
+                    hover-hint="Prevents score submission if your combo at the end of the map is not a full combo"
+                    apply-on-change="true"/>
+
+    <horizontal><text text="-----" color="#00000000" font-size="2"/></horizontal>
+    
+    <toggle-setting value="CapMistakeCount" text="Disable submission if too many mistakes were made"
+                    hover-hint="Prevents score submission if you make too many mistakes (above the threshold set below)"
+                    apply-on-change="true"/>
+    <slider-setting value="MaximumMistakeCount" text="Maximum Mistakes"
+                    hover-hint="If the amount of mistakes you make meets this threshold and the above setting is enabled, prevent score submission"
+                    integer-only="true" min="1" max="50" increment="1"
+                    apply-on-change="true" show-buttons="true"/>
+
+    <horizontal><text text="-----" color="#00000000" font-size="2"/></horizontal>
+
+    <toggle-setting value="CapAccuracy" text="Disable submission if accuracy is too low"
+                    hover-hint="Prevents score submission if your accuracy is too low (below the threshold set below)"
+                    apply-on-change="true"/>
+    <slider-setting value="MinimumAccuracy" text="Minimum Accuracy"
+                    hover-hint="If your accuracy does not meet this threshold and the above setting is enabled, prevent score submission"
+                    min="0" max="1" increment="0.005" formatter="PercentageFormatter"
+                    apply-on-change="true" show-buttons="true"/>
+</settings-container>

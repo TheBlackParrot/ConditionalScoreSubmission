@@ -1,0 +1,87 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="ConditionalScoreSubmission.csproj.user" Condition="Exists('ConditionalScoreSubmission.csproj.user')"/>
+
+    <PropertyGroup>
+        <TargetFramework>net472</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <EnableFrameworkPathOverride>true</EnableFrameworkPathOverride>
+        <FrameworkPathOverride>$(BeatSaberDir)\Beat Saber_Data\Managed</FrameworkPathOverride>
+        <MarkPackageReferencesAsExternallyResolved>false</MarkPackageReferencesAsExternallyResolved>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <DebugSymbols Condition="$(Configuration.Contains('Release'))">false</DebugSymbols>
+        <DebugSymbols Condition="$(Configuration.Contains('Debug'))">true</DebugSymbols>
+
+        <Optimize Condition="$(Configuration.Contains('Release'))">true</Optimize>
+        <Optimize Condition="$(Configuration.Contains('Debug'))">false</Optimize>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="BeatSaberModdingTools.Tasks" Version="2.0.0-beta7">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.5.0-beta.1">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="ConditionalScoreSubmission.csproj.user" Condition="Exists('ConditionalScoreSubmission.csproj.user')"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="BSML">
+            <HintPath>$(BeatSaberDir)\Plugins\BSML.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="GameplayCore">
+            <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\GameplayCore.dll</HintPath>
+            <Private>false</Private>
+            <Publicize>true</Publicize>
+        </Reference>
+        <Reference Include="IPA.Loader">
+            <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\IPA.Loader.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Main">
+            <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Main.dll</HintPath>
+            <Private>false</Private>
+            <Publicize>true</Publicize>
+        </Reference>
+        <Reference Include="mscorlib"/>
+        <Reference Include="netstandard"/>
+        <Reference Include="SiraUtil">
+            <HintPath>$(BeatSaberDir)\Plugins\SiraUtil.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="System"/>
+        <Reference Include="System.Core"/>
+        <Reference Include="UnityEngine">
+            <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule">
+            <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Zenject">
+            <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Zenject.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Zenject-usage">
+            <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Zenject-usage.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
+    
+    <ItemGroup>
+        <EmbeddedResource Include="UI\BSML\Settings.bsml"/>
+    </ItemGroup>
+
+</Project>
