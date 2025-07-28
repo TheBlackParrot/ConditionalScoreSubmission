@@ -7,22 +7,16 @@ using Zenject;
 namespace ConditionalScoreSubmission.Managers;
 
 [UsedImplicitly]
-internal class ResultsManager : IInitializable, IAffinity
+internal class ResultsManager : IAffinity
 {
     private static PluginConfig Config => PluginConfig.Instance;
     
     private readonly Submission _submission;
-    private Ticket? _ticket;
 
     [Inject]
     internal ResultsManager(Submission submission)
     {
         _submission = submission;
-    }
-
-    public void Initialize()
-    {
-        _ticket = _submission.DisableScoreSubmission("ConditionalScoreSubmission");
     }
     
     [AffinityPostfix]
@@ -73,18 +67,9 @@ internal class ResultsManager : IInitializable, IAffinity
         }
         
         finish:
-            if (_ticket == null)
-            {
-                return;
-            }
-            
             if (!string.IsNullOrEmpty(reason))
             {
-                _ticket.AddReason(reason);
-            }
-            else
-            {
-                _submission.Remove(_ticket);
+                _submission.DisableScoreSubmission("ConditionalScoreSubmission", reason);
             }
     }
 }
