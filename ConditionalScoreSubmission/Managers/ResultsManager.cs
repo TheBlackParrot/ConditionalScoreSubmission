@@ -38,7 +38,6 @@ internal class ResultsManager : IInitializable, IAffinity
         GameEnergyCounter gameEnergyCounter = __instance._prepareLevelCompletionResults._gameEnergyCounter;
         GameplayModifiers gameplayModifiers = __instance._prepareLevelCompletionResults._gameplayModifiers;
         IScoreController scoreController = __instance._prepareLevelCompletionResults._scoreController;
-        ComboController comboController = __instance._prepareLevelCompletionResults._comboController;
         
         string reason = string.Empty;
 
