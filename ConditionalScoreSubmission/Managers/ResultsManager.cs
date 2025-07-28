@@ -19,7 +19,7 @@ internal class ResultsManager : IAffinity
         _submission = submission;
     }
     
-    [AffinityPostfix]
+    [AffinityPrefix]
     [AffinityPatch(typeof(StandardLevelFinishedController), nameof(StandardLevelFinishedController.StartLevelFinished))]
     // ReSharper disable once InconsistentNaming
     private void FillLevelCompletionResultsPatch(StandardLevelFinishedController __instance)
