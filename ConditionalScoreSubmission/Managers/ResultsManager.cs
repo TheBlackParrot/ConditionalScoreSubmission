@@ -37,6 +37,12 @@ internal class ResultsManager : IInitializable, IDisposable
         StandardLevelScenesTransitionSetupDataSO transitionSetupData, LevelCompletionResults results)
     {
         string reason = string.Empty;
+
+        if (Config.JustDisableSubmission)
+        {
+            reason = "Score submission was disabled";
+            goto finish;
+        }
         
         if (results.energy == 0 && results.gameplayModifiers.noFailOn0Energy && Config.DisableNoFailSubmission)
         {

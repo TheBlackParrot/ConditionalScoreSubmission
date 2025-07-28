@@ -22,4 +22,6 @@ internal class PluginConfig
     public virtual bool DisableNoFailSubmission { get; set; } = false;
     
     public virtual bool DisableNonFullCombos { get; set; } = false;
+    
+    public virtual bool JustDisableSubmission { get; set; } = false;
 }

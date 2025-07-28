@@ -63,4 +63,10 @@ internal class SettingsViewController : IInitializable, IDisposable
         get => Config.DisableNonFullCombos;
         set => Config.DisableNonFullCombos = value;
     }
+
+    protected bool JustDisableSubmission
+    {
+        get => Config.JustDisableSubmission;
+        set => Config.JustDisableSubmission = value;
+    }
 }

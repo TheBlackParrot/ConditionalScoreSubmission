@@ -1,5 +1,11 @@
 ﻿<settings-container xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
                     xsi:noNamespaceSchemaLocation='https://monkeymanboy.github.io/BSML-Docs/BSMLSchema.xsd'>
+    <toggle-setting value="JustDisableSubmission" text="Disable submission regardless of any condition"
+                    hover-hint="Prevents score submission entirely, no condition needs to be met"
+                    apply-on-change="true"/>
+    
+    <horizontal><text text="-----" color="#00000000" font-size="2"/></horizontal>
+    
     <toggle-setting value="DisableNoFailSubmission" text="Disable submission when failing with No Fail"
                     hover-hint="Prevents score submission if you have the No Fail game modifier enabled, and you fail the map"
                     apply-on-change="true"/>
