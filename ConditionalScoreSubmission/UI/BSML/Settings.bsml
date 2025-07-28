@@ -20,19 +20,19 @@
     
     <toggle-setting value="CapMistakeCount" text="Disable submission if too many mistakes were made"
                     hover-hint="Prevents score submission if you make too many mistakes (above the threshold set below)"
-                    apply-on-change="true"/>
+                    apply-on-change="true" bind-value="true"/>
     <slider-setting value="MaximumMistakeCount" text="Maximum Mistakes"
                     hover-hint="If the amount of mistakes you make meets this threshold and the above setting is enabled, prevent score submission"
                     integer-only="true" min="1" max="50" increment="1"
-                    apply-on-change="true" show-buttons="true"/>
+                    apply-on-change="true" show-buttons="true" active="~CapMistakeCount"/>
 
     <horizontal><text text="-----" color="#00000000" font-size="2"/></horizontal>
 
     <toggle-setting value="CapAccuracy" text="Disable submission if accuracy is too low"
                     hover-hint="Prevents score submission if your accuracy is too low (below the threshold set below)"
-                    apply-on-change="true"/>
+                    apply-on-change="true" bind-value="true"/>
     <slider-setting value="MinimumAccuracy" text="Minimum Accuracy"
                     hover-hint="If your accuracy does not meet this threshold and the above setting is enabled, prevent score submission"
                     min="0" max="1" increment="0.005" formatter="PercentageFormatter"
-                    apply-on-change="true" show-buttons="true"/>
+                    apply-on-change="true" show-buttons="true" active="~CapAccuracy"/>
 </settings-container>

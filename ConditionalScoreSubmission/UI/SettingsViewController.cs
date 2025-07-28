@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using BeatSaberMarkupLanguage.GameplaySetup;
 using ConditionalScoreSubmission.Configuration;
 using JetBrains.Annotations;
@@ -7,9 +8,10 @@ using Zenject;
 namespace ConditionalScoreSubmission.UI;
 
 [UsedImplicitly]
-internal class SettingsViewController : IInitializable, IDisposable
+internal class SettingsViewController : INotifyPropertyChanged, IInitializable, IDisposable
 {
     private static PluginConfig Config => PluginConfig.Instance;
+    public event PropertyChangedEventHandler? PropertyChanged;
     
     private readonly GameplaySetup _gameplaySetup;
 
@@ -33,8 +35,13 @@ internal class SettingsViewController : IInitializable, IDisposable
     protected bool CapMistakeCount
     {
         get => Config.CapMistakeCount;
-        set => Config.CapMistakeCount = value;
+        set
+        {
+            Config.CapMistakeCount = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CapMistakeCount)));
+        }
     }
+
     protected int MaximumMistakeCount
     {
         get => Config.MaximumMistakeCount;
@@ -44,8 +51,13 @@ internal class SettingsViewController : IInitializable, IDisposable
     protected bool CapAccuracy
     {
         get => Config.CapAccuracy;
-        set => Config.CapAccuracy = value;
+        set
+        {
+            Config.CapAccuracy = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CapAccuracy)));
+        }
     }
+
     protected float MinimumAccuracy
     {
         get => Config.MinimumAccuracy;
