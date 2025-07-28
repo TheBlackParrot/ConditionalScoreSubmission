@@ -7,7 +7,7 @@
     <PluginId>ConditionalScoreSubmission</PluginId>
     <PluginName>ConditionalScoreSubmission</PluginName>
     <Authors>TheBlackParrot</Authors>
-    <Version>0.0.0</Version>
+    <Version>0.0.1</Version>
     <GameVersion>1.39.1</GameVersion>
     <Description>Adds conditions that must be met before scores submit to leaderboards</Description>
     <ProjectSource>https://github.com/TheBlackParrot/ConditionalScoreSubmission</ProjectSource>

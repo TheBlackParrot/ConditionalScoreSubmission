@@ -1,50 +1,66 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
 using ConditionalScoreSubmission.Configuration;
-using SiraUtil.Affinity;
+using JetBrains.Annotations;
 using SiraUtil.Submissions;
+using Zenject;
 
 namespace ConditionalScoreSubmission.Managers;
 
-internal class ResultsManager : IAffinity
+[UsedImplicitly]
+internal class ResultsManager : IInitializable, IDisposable
 {
     private static PluginConfig Config => PluginConfig.Instance;
+    
     private readonly Submission _submission;
+    private static StandardLevelScenesTransitionSetupDataSO _standardLevelScenesTransitionSetupDataSo = null!;
+    private static ScoreController _scoreController = null!;
 
-    internal ResultsManager(Submission submission)
+    [Inject]
+    internal ResultsManager(Submission submission, StandardLevelScenesTransitionSetupDataSO standardLevelScenesTransitionSetupDataSo, ScoreController scoreController)
     {
         _submission = submission;
+        _standardLevelScenesTransitionSetupDataSo = standardLevelScenesTransitionSetupDataSo;
+        _scoreController = scoreController;
     }
-    
-    [AffinityPostfix]
-    [AffinityPatch(typeof(PrepareLevelCompletionResults), nameof(PrepareLevelCompletionResults.FillLevelCompletionResults))]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    private void FillLevelCompletionResults(PrepareLevelCompletionResults __instance, LevelCompletionResults __result)
+
+    public void Initialize()
+    {
+        _standardLevelScenesTransitionSetupDataSo.didFinishEvent += StandardLevelScenesTransitionSetupDataSoOnDidFinishEvent;
+    }
+
+    public void Dispose()
+    {
+        _standardLevelScenesTransitionSetupDataSo.didFinishEvent -= StandardLevelScenesTransitionSetupDataSoOnDidFinishEvent;
+    }
+
+    private void StandardLevelScenesTransitionSetupDataSoOnDidFinishEvent(
+        StandardLevelScenesTransitionSetupDataSO transitionSetupData, LevelCompletionResults results)
     {
         string reason = string.Empty;
         
-        if (__result.energy == 0 && __result.gameplayModifiers.noFailOn0Energy && Config.DisableNoFailSubmission)
+        if (results.energy == 0 && results.gameplayModifiers.noFailOn0Energy && Config.DisableNoFailSubmission)
         {
             reason = "Failed with No Fail enabled";
             goto finish;
         }
 
         if (Config.CapAccuracy &&
-            __result.modifiedScore / (double)__instance._scoreController.immediateMaxPossibleModifiedScore < Config.MinimumAccuracy)
+            results.modifiedScore / (double)_scoreController.immediateMaxPossibleModifiedScore < Config.MinimumAccuracy)
         {
             reason = $"Accuracy was below {Config.MinimumAccuracy * 100:0.0}%";
             goto finish;
         }
 
-        if (Config.DisableNonFullCombos && !__result.fullCombo)
+        if (Config.DisableNonFullCombos && !results.fullCombo)
         {
             reason = "Not a full combo";
             goto finish;
         }
 
         if (Config.CapMistakeCount &&
-            __result.notGoodCount + __result.missedCount >= Config.MaximumMistakeCount)
+            results.notGoodCount + results.missedCount >= Config.MaximumMistakeCount)
         {
-            reason = $"At least {Config.MaximumMistakeCount} mistake{(Config.MaximumMistakeCount != 1 ? "s were" : " was")} made (detected {__result.notGoodCount + __result.missedCount})";
+            reason = $"At least {Config.MaximumMistakeCount} mistake{(Config.MaximumMistakeCount != 1 ? "s were" : " was")} made (detected {results.notGoodCount + results.missedCount})";
         }
         
         finish:
