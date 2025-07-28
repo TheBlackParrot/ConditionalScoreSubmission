@@ -73,13 +73,18 @@ internal class ResultsManager : IInitializable, IDisposable
         }
         
         finish:
+            if (_ticket == null)
+            {
+                return;
+            }
+            
             if (!string.IsNullOrEmpty(reason))
             {
-                _ticket?.AddReason(reason);
+                _ticket.AddReason(reason);
             }
             else
             {
-                if (_ticket != null) _submission.Remove(_ticket);
+                _submission.Remove(_ticket);
             }
     }
 }
