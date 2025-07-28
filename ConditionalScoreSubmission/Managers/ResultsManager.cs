@@ -12,6 +12,8 @@ internal class ResultsManager : IInitializable, IDisposable
     private static PluginConfig Config => PluginConfig.Instance;
     
     private readonly Submission _submission;
+    private Ticket? _ticket;
+    
     private static StandardLevelScenesTransitionSetupDataSO _standardLevelScenesTransitionSetupDataSo = null!;
     private static ScoreController _scoreController = null!;
 
@@ -25,6 +27,7 @@ internal class ResultsManager : IInitializable, IDisposable
 
     public void Initialize()
     {
+        _ticket = _submission.DisableScoreSubmission("ConditionalScoreSubmission");
         _standardLevelScenesTransitionSetupDataSo.didFinishEvent += StandardLevelScenesTransitionSetupDataSoOnDidFinishEvent;
     }
 
@@ -72,7 +75,11 @@ internal class ResultsManager : IInitializable, IDisposable
         finish:
             if (!string.IsNullOrEmpty(reason))
             {
-                _submission.DisableScoreSubmission("ConditionalScoreSubmission", reason);
+                _ticket?.AddReason(reason);
+            }
+            else
+            {
+                if (_ticket != null) _submission.Remove(_ticket);
             }
     }
 }
